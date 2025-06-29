@@ -1,17 +1,17 @@
 #!/bin/bash
 
-# Colours d
-greenColour="\e[0;32m\033[1m"
-endColour="\033[0m\e[0m"
-redColour="\e[0;31m\033[1m"
-blueColour="\e[0;34m\033[1m"
-yellowColour="\e[0;33m\033[1m"
-purpleColour="\e[0;35m\033[1m"
-turquoiseColour="\e[0;36m\033[1m"
-grayColour="\e[0;37m\033[1m"
+# colors d
+greencolor="\e[0;32m\033[1m"
+endcolor="\033[0m\e[0m"
+redcolor="\e[0;31m\033[1m"
+bluecolor="\e[0;34m\033[1m"
+yellowcolor="\e[0;33m\033[1m"
+purplecolor="\e[0;35m\033[1m"
+turquoisecolor="\e[0;36m\033[1m"
+graycolor="\e[0;37m\033[1m"
 
 function ctrl_c(){
-  echo -e "\n${redColour}[!] Saliendo del programa...${endColour}\n"
+  echo -e "\n${redcolor}[!] Saliendo del programa...${endcolor}\n"
   tput cnorm && exit 1
 }
 
@@ -36,7 +36,7 @@ function move_to_desktop(){
   if [ -d $Desk ]; then
     cd $Desk
   else
-   echo -e "\n${redColour}[+] El programa está definido para trabajar con los directorios de un sistema en inglés o español, tu sistema debe estar en otro idioma y por ello no es posible utilizar este script.${endColour}"
+   echo -e "\n${redcolor}[+] El programa está definido para trabajar con los directorios de un sistema en inglés o español, tu sistema debe estar en otro idioma y por ello no es posible utilizar este script.${endcolor}"
       tput cnorm; exit 1
     fi
 }
@@ -50,7 +50,7 @@ function move_to_downloads(){
     cd $Dow_es
     Dow="$Dow_es"
   else
-    echo -e "\n${redColour}[+] El programa está definido para trabajar con los directorios de un sistema en inglés o español, tu sistema debe estar en otro idioma y por ello no es posible utilizar este script.${endColour}"
+    echo -e "\n${redcolor}[+] El programa está definido para trabajar con los directorios de un sistema en inglés o español, tu sistema debe estar en otro idioma y por ello no es posible utilizar este script.${endcolor}"
       tput cnorm; exit 1
   fi
 }
@@ -69,9 +69,9 @@ function check_status(){
   redText="$3"
 
   if [ "$status" == 0 ]; then
-    echo -e "${yellowColour}[+]${endColour} ${greenColour}${greenText}${endColour}"
+    echo -e "${yellowcolor}[+]${endcolor} ${greencolor}${greenText}${endcolor}"
   else
-    echo -e "\n${redColour}[+] ${redText}${endColour}\n"
+    echo -e "\n${redcolor}[+] ${redText}${endcolor}\n"
     tput cnorm; exit 1
    fi
 
@@ -83,15 +83,15 @@ function update_upgrade(){
   system="$(echo $1 | tr '[:upper:]' '[:lower:]')"
 
   if [ "$system" == "parrot" ]; then
-    echo -e "\n${yellowColour}[+]${endColour} ${blueColour}Actualizando el sistema parrot...${endColour}"
+    echo -e "\n${yellowcolor}[+]${endcolor} ${bluecolor}Actualizando el sistema parrot...${endcolor}"
     (sudo apt update) &>/dev/null && (sudo parrot-upgrade) &>/dev/null
     save_status "$(echo $?)"
   elif [ "$system" == "arch" ]; then
-    echo -e "\n${yellowColour}[+]${endColour} ${blueColour}Actualizando el sistema ArchLinux...${endColour}"
+    echo -e "\n${yellowcolor}[+]${endcolor} ${bluecolor}Actualizando el sistema ArchLinux...${endcolor}"
     (sudo pacman -Syu) &>/dev/null
     save_status "$(echo $?)"
   else
-    echo -e "\n${yellowColour}[+]${endColour} ${blueColour}Actualizando el sistema...${endColour}"
+    echo -e "\n${yellowcolor}[+]${endcolor} ${bluecolor}Actualizando el sistema...${endcolor}"
     if [ "$(cat "/etc/apt/sources.list" | wc -l)" -gt "3"  ]; then
       if [ ! "$(cat "/etc/apt/sources.list" | grep -i "debian")" ]; then
         cat /etc/apt/sources.list | tee repo_info &>/dev/null
@@ -118,7 +118,7 @@ function services_arch(){
 }
 
 function install_arch_packages(){
-  	echo -e "\n${yellowColour}[+]${endColour} ${blueColour}Instalando los paquetes necesarios...${endColour}"
+  	echo -e "\n${yellowcolor}[+]${endcolor} ${bluecolor}Instalando los paquetes necesarios...${endcolor}"
 	(sudo pacman -S bspwm kitty neovim git base-devel wget dpkg neovim zsh feh polybar xorg-xinit xorg-server xorg-apps net-tools --needed --noconfirm) &>/dev/null
 
 	yayu=$(which yay 2>/dev/null)
@@ -133,14 +133,14 @@ function install_arch_packages(){
 		save_status "$(echo $?)"
         services_arch
 	else
-		echo -e "\n${yellowColour}Es necesario tener instalado un AUR helper como YAY o PARU.${endColour}\n"
+		echo -e "\n${yellowcolor}Es necesario tener instalado un AUR helper como YAY o PARU.${endcolor}\n"
 		tput cnorm; exit 1
 	fi
 }
 
 function install_packages(){
 
-  echo -e "\n${yellowColour}[+]${endColour} ${blueColour}Instalando los paquetes necesarios...${endColour}"
+  echo -e "\n${yellowcolor}[+]${endcolor} ${bluecolor}Instalando los paquetes necesarios...${endcolor}"
 
   (sudo apt install bspwm build-essential git vim xcb libxcb-util0-dev libxcb-ewmh-dev libxcb-randr0-dev libxcb-icccm4-dev libxcb-keysyms1-dev libxcb-xinerama0-dev libasound2-dev libxcb-xtest0-dev libxcb-shape0-dev moreutils curl net-tools -y) &>/dev/null
   save_status "$(echo $?)"
@@ -154,7 +154,7 @@ function install_packages(){
 
 function bspwm_sxhkd(){
 
-  echo -e "\n${yellowColour}[+]${endColour} ${blueColour}Instalando y configurando Bspwm y Sxhkd...${endColour}"
+  echo -e "\n${yellowcolor}[+]${endcolor} ${bluecolor}Instalando y configurando Bspwm y Sxhkd...${endcolor}"
   move_to_downloads
 
   git clone https://github.com/baskerville/bspwm.git &>/dev/null
@@ -203,7 +203,7 @@ function bspwm_sxhkd(){
 
 function kitty(){
 
-  echo -e "\n${yellowColour}[+]${endColour} ${blueColour}Actualizando la kitty...${endColour}"
+  echo -e "\n${yellowcolor}[+]${endcolor} ${bluecolor}Actualizando la kitty...${endcolor}"
 
   cd
 
@@ -234,7 +234,7 @@ function kitty(){
 
 function polybar(){
 
-  echo -e "\n${yellowColour}[+]${endColour} ${blueColour}Instalando y configurando la polybar...${endColour}"
+  echo -e "\n${yellowcolor}[+]${endcolor} ${bluecolor}Instalando y configurando la polybar...${endcolor}"
   move_to_downloads
 
   cd ./AutoBspwm/content/blue-sky/polybar
@@ -274,7 +274,7 @@ function polybar(){
 
 function picom(){
 
-  echo -e "\n${yellowColour}[+]${endColour} ${blueColour}Instalando y configurando picom...${endColour}"
+  echo -e "\n${yellowcolor}[+]${endcolor} ${bluecolor}Instalando y configurando picom...${endcolor}"
   move_to_downloads
 
   (git clone https://github.com/yshui/picom.git) &>/dev/null
@@ -297,7 +297,7 @@ function picom(){
 
 function rofi(){
 
-  echo -e "\n${yellowColour}[+]${endColour} ${blueColour}Configurando el lanzador de aplicaciones rofi...${endColour}"
+  echo -e "\n${yellowcolor}[+]${endcolor} ${bluecolor}Configurando el lanzador de aplicaciones rofi...${endcolor}"
   move_to_downloads
 
   sudo cp -rf ./AutoBspwm/content/rofi-themes-collection /opt &>/dev/null
@@ -313,7 +313,7 @@ function zsh(){
 
   # PENDING: zsh-autocomplete zsh-autosuggestions zsh-syntax-highlighting 
   
-  echo -e "\n${yellowColour}[+]${endColour} ${blueColour}Configurando la zsh...${endColour}"
+  echo -e "\n${yellowcolor}[+]${endcolor} ${bluecolor}Configurando la zsh...${endcolor}"
   move_to_downloads
   (git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k) &>/dev/null
 
@@ -355,7 +355,7 @@ function zsh(){
 function batcat_lsd(){
   
   move_to_downloads
-  echo -e "\n${yellowColour}[+]${endColour} ${blueColour}Instalando batcat v0.24.0 y lsd v1.1.5...${endColour}"
+  echo -e "\n${yellowcolor}[+]${endcolor} ${bluecolor}Instalando batcat v0.24.0 y lsd v1.1.5...${endcolor}"
 
   (wget "https://github.com/sharkdp/bat/releases/download/v0.24.0/bat_0.24.0_amd64.deb") &>/dev/null
   save_status "$(echo $?)"
@@ -374,7 +374,7 @@ function batcat_lsd(){
 
 function BurpSuite(){
   
-  echo -e "\n${yellowColour}[+]${endColour} ${blueColour}Configurando burpsuite...${endColour}"
+  echo -e "\n${yellowcolor}[+]${endcolor} ${bluecolor}Configurando burpsuite...${endcolor}"
 
   move_to_downloads
   (sudo cp -f ./AutoBspwm/content/launchers/burpsuite-launcher /usr/bin/burpsuite-launcher) &>/dev/null
@@ -383,7 +383,7 @@ function BurpSuite(){
 
 function fzf(){
 
-  echo -e "\n${yellowColour}[+]${endColour} ${blueColour}Instalando fzf...${endColour}"
+  echo -e "\n${yellowcolor}[+]${endcolor} ${bluecolor}Instalando fzf...${endcolor}"
   cd
   (git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf) &>/dev/null
   yes | ~/.fzf/install &>/dev/null
@@ -393,7 +393,7 @@ function fzf(){
 
 function neovim(){
   
-  echo -e "\n${yellowColour}[+]${endColour} ${blueColour}Configurando Neovim con NVChad...${endColour}"
+  echo -e "\n${yellowcolor}[+]${endcolor} ${bluecolor}Configurando Neovim con NVChad...${endcolor}"
 
   if [ -d  "/home/$user/.config/nvim" ]; then
     rm -rf "/home/$user/.config/nvim" &>/dev/null
@@ -410,7 +410,7 @@ function neovim(){
 
 function i3lock-fancy(){
 
-  echo -e "\n${yellowColour}[+]${endColour} ${blueColour}Instalando y configurando i3lock-fancy para el bloqueo de pantalla...${endColour}"
+  echo -e "\n${yellowcolor}[+]${endcolor} ${bluecolor}Instalando y configurando i3lock-fancy para el bloqueo de pantalla...${endcolor}"
   move_to_downloads
   (git clone https://github.com/meskarune/i3lock-fancy.git) &>/dev/null
   save_status "$(echo $?)"
@@ -428,7 +428,7 @@ function check_temp(){
 }
 
 function obsidian(){
-  echo -e "\n${yellowColour}[+]${endColour} ${blueColour}Descargando e instalando obsidian...${endColour}"
+  echo -e "\n${yellowcolor}[+]${endcolor} ${bluecolor}Descargando e instalando obsidian...${endcolor}"
 
   temp_status="0"
 
@@ -441,7 +441,7 @@ function obsidian(){
   
   wget https://github.com/obsidianmd/obsidian-releases/releases/download/v1.7.5/Obsidian-1.7.5.AppImage &>/dev/null
   if [ ! "$(echo $?)" -eq 0 ]; then
-    echo -e "\n${yellowColour}[!] Error con la descarga de Obsidian.${endColour}\n"
+    echo -e "\n${yellowcolor}[!] Error con la descarga de Obsidian.${endcolor}\n"
   fi
   chmod +x Obsidian-1.7.5.AppImage &>/dev/null
   check_temp "$(echo "$?")"
@@ -459,9 +459,9 @@ function obsidian(){
   check_temp "$(echo "$?")"
   cd
   if [ ! "$temp_status" -eq 0 ]; then
-    echo -e "${yellowColour}[!] Eror al instalar obsidian.${endColour}"
+    echo -e "${yellowcolor}[!] Eror al instalar obsidian.${endcolor}"
   else
-    echo -e "${yellowColour}[+]${endColour} ${greenColour}Obsidian se ha instalado correctamente.${endColour}"
+    echo -e "${yellowcolor}[+]${endcolor} ${greencolor}Obsidian se ha instalado correctamente.${endcolor}"
   fi
 }
 
@@ -469,7 +469,7 @@ function mullvad(){
 
   temp_status="0"
 
-  echo -e "\n${yellowColour}[+]${endColour} ${blueColour}Descargando e instalando mullvad browser...${endColour}"
+  echo -e "\n${yellowcolor}[+]${endcolor} ${bluecolor}Descargando e instalando mullvad browser...${endcolor}"
   move_to_downloads && cd AutoBspwm/content
   check_temp "$(echo "$?")"
   if [ -d mullvad-browser ]; then
@@ -477,7 +477,7 @@ function mullvad(){
   fi
   wget https://mullvad.net/en/download/browser/linux-x86_64/latest &>/dev/null
   if [ ! "$(echo $?)" -eq 0 ]; then
-    echo -e "\n${yellowColour}[!] Error con la descarga de Mullvad.${endColour}"
+    echo -e "\n${yellowcolor}[!] Error con la descarga de Mullvad.${endcolor}"
   fi
 
 
@@ -505,15 +505,15 @@ function mullvad(){
   check_temp "$(echo "$?")"
 
   if [ ! "$temp_status" -eq 0 ]; then
-    echo -e "${yellowColour}[!] Eror al instalar mullvad browser.${endColour}"
+    echo -e "${yellowcolor}[!] Eror al instalar mullvad browser.${endcolor}"
   else
-    echo -e "${yellowColour}[+]${endColour} ${greenColour}Mullvad browser se ha instalado correctamente.${endColour}"
+    echo -e "${yellowcolor}[+]${endcolor} ${greencolor}Mullvad browser se ha instalado correctamente.${endcolor}"
   fi
 }
 
 function shell(){
 
-  echo -e "\n${yellowColour}[+]${endColour} ${blueColour}Configurando la Shell zsh como principal...${endColour}"
+  echo -e "\n${yellowcolor}[+]${endcolor} ${bluecolor}Configurando la Shell zsh como principal...${endcolor}"
   sudo usermod --shell /usr/bin/zsh root &>/dev/null
   save_status "$(echo $?)"
   sudo usermod --shell /usr/bin/zsh "$user" &>/dev/null
@@ -524,7 +524,7 @@ function root_checker(){
   suid="$(id | grep "uid=0")"
 
   if [ "$suid" ]; then
-    echo -e "\n${redColour}[+]${endColour} ${blueColour}Actualmente, se encuentra como usuario root, ejecute el programa como usuario no privilegiado.${endColour}\n"
+    echo -e "\n${redcolor}[+]${endcolor} ${bluecolor}Actualmente, se encuentra como usuario root, ejecute el programa como usuario no privilegiado.${endcolor}\n"
     tput cnorm; exit 1
     return 0
   fi
@@ -552,7 +552,7 @@ function main(){
 ██████░██░░░██░░░░██░░░░██░░░██░██░░██░░░░░░██░██░░░░░██░██░██░██░██░██
 ██░░██░▀█████▀░░░░██░░░░▀█████▀░█████▀░██████▀░██░░░░░▀██▀▀██▀░██░██░██
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
-  echo -e "${grayColour}𝑀𝑎𝑑𝑒 𝑏𝑦 𝑠𝑎𝑚𝑚𝑦-𝑢𝑙𝑓ℎ${endColour}"
+  echo -e "${graycolor}𝑀𝑎𝑑𝑒 𝑏𝑦 𝑠𝑎𝑚𝑚𝑦-𝑢𝑙𝑓ℎ${endcolor}"
   echo ""
   
   root_checker
